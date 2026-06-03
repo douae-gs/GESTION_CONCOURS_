@@ -74,7 +74,7 @@ $nb_candidatures = $stmt2->fetchColumn();
                         <p><strong>Email :</strong> <?= htmlspecialchars($user['email']) ?></p>
                         <p><strong>Role :</strong> <?= htmlspecialchars($user['role']) ?></p>
                         <p><strong>Membre depuis :</strong> <?= date('d/m/Y', strtotime($user['created_at'])) ?></p>
-                        <p><strong>Candidatures soumises :</strong> <?= $nb_candidatures ?></p>
+                      
                     </div>
 
                     <hr>
@@ -90,7 +90,7 @@ $nb_candidatures = $stmt2->fetchColumn();
 
                     <hr>
 
-                    <a href="logout.php" class="btn btn-danger mt-2">Se deconnecter</a>
+                    <a href="logout.php" class="btn btn-danger mt-2">Se déconnecter</a>
                 </div>
             </div>
         </div>
