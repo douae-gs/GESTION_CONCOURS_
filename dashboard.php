@@ -18,8 +18,8 @@ if ($role === 'admin') {
     $stmt = $pdo->query('SELECT COUNT(*) FROM users WHERE role = "candidat"');
     $candidats = $stmt->fetchColumn();
 
-    $stmt = $pdo->query('SELECT COUNT(*) FROM candidatures WHERE statut = "en attente"');
-    $attente = $stmt->fetchColumn();
+    $stmt = $pdo->query('SELECT COUNT(*) FROM concours WHERE statut = "ferme"');
+    $concours_fermes = $stmt->fetchColumn();
 
     $stmt = $pdo->query('SELECT c.titre, e.nom AS ecole, c.date_concours, c.date_limite_inscription, c.places_disponibles,
         (SELECT COUNT(*) FROM candidatures ca WHERE ca.concours_id = c.id) AS nb
@@ -32,9 +32,10 @@ if ($role === 'admin') {
     $stmt->execute([$id]);
     $mes_dossiers = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM candidatures WHERE user_id = ? AND statut = "accepte"');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM candidatures ca JOIN concours c ON ca.concours_id = c.id 
+        WHERE ca.user_id = ? AND c.statut = "ferme"');
     $stmt->execute([$id]);
-    $admis = $stmt->fetchColumn();
+    $concours_fermes = $stmt->fetchColumn() ?: 0;
 
     $stmt = $pdo->query('SELECT c.titre, e.nom AS ecole, c.date_concours, c.date_limite_inscription, c.places_disponibles
         FROM concours c JOIN ecoles e ON c.ecole_id = e.id
@@ -86,8 +87,8 @@ if ($role === 'admin') {
         </div>
         <div class="col-md-4 mb-3">
             <div class="stat-card vert">
-                <h2><?= $attente ?></h2>
-                <p>En attente</p>
+                <h2><?= $concours_fermes ?></h2>
+                <p>Concours fermés</p>
             </div>
         </div>
     </div>
@@ -146,8 +147,8 @@ if ($role === 'admin') {
         </div>
         <div class="col-md-4 mb-3">
             <div class="stat-card vert">
-                <h2><?= $admis ?></h2>
-                <p>Candidatures acceptees</p>
+                <h2><?= $concours_fermes ?></h2>
+                <p>Concours fermés</p>
             </div>
         </div>
     </div>
