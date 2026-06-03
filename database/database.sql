@@ -1,4 +1,5 @@
 CREATE DATABASE gestion_concours_db CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 USE gestion_concours_db;
 
 CREATE TABLE users (
